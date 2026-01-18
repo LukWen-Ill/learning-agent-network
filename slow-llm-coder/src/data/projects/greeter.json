@@ -1,0 +1,111 @@
+{
+  "id": "greeter",
+  "name": "Build a Greeter",
+  "description": "Learn Python basics by building a simple greeter program",
+  "language": "python",
+  "difficulty": "beginner",
+  "states": [
+    {
+      "id": 0,
+      "title": "Hello World",
+      "code": "# My First Python Program\nprint(\"Hello, World!\")",
+      "explanation": "We start with the classic Hello World program.",
+      "diff": null,
+      "speedExplanations": {
+        "low": "print() outputs text to the screen.",
+        "medium": "We use print() to display text. The text inside quotes is called a string.",
+        "high": "Every programmer starts here! The print() function outputs text to the console. Text inside quotes (\"...\") is called a string. Python reads your code line by line and executes each instruction."
+      }
+    },
+    {
+      "id": 1,
+      "title": "Using a Variable",
+      "code": "# My First Python Program\nname = \"World\"\nprint(\"Hello, \" + name + \"!\")",
+      "explanation": "Now we store the name in a variable so we can change it easily.",
+      "diff": {
+        "added": ["name = \"World\"", "print(\"Hello, \" + name + \"!\")"],
+        "removed": ["print(\"Hello, World!\")"]
+      },
+      "speedExplanations": {
+        "low": "Variable 'name' stores the value. + joins strings together.",
+        "medium": "Variables store values for later use. We use + to concatenate (join) strings together. Now we can easily change the name in one place.",
+        "high": "A variable is like a labeled box that holds a value. Here, 'name' is the label and \"World\" is the value inside. The = sign assigns the value to the variable. We use + to concatenate (join) strings together. This makes our code more flexible - change the variable once, and it updates everywhere it's used."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Getting User Input",
+      "code": "# My First Python Program\nname = input(\"What is your name? \")\nprint(\"Hello, \" + name + \"!\")",
+      "explanation": "Let's make it interactive by asking for the user's name.",
+      "diff": {
+        "added": ["name = input(\"What is your name? \")"],
+        "removed": ["name = \"World\""]
+      },
+      "speedExplanations": {
+        "low": "input() asks user for text and returns it.",
+        "medium": "The input() function pauses the program, shows a prompt, waits for the user to type something and press Enter, then returns what they typed.",
+        "high": "The input() function makes your program interactive. It displays the prompt text (\"What is your name? \"), then waits for the user to type something and press Enter. Whatever they type becomes the return value, which we store in the 'name' variable. Now every user gets a personalized greeting!"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Using f-strings",
+      "code": "# My First Python Program\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")",
+      "explanation": "f-strings are a cleaner way to include variables in text.",
+      "diff": {
+        "added": ["print(f\"Hello, {name}!\")"],
+        "removed": ["print(\"Hello, \" + name + \"!\")"]
+      },
+      "speedExplanations": {
+        "low": "f\"...{var}...\" embeds variables directly in strings.",
+        "medium": "f-strings (formatted strings) let you embed variables directly using {curly braces}. Cleaner than using + to join strings.",
+        "high": "f-strings (the 'f' before the quotes) are Python's modern way to format strings. Instead of joining strings with +, you put variables directly inside {curly braces}. The variable's value replaces the {name} placeholder. This is easier to read and less error-prone than concatenation."
+      }
+    },
+    {
+      "id": 4,
+      "title": "Creating a Function",
+      "code": "# My First Python Program\n\ndef greet():\n    \"\"\"Greets the user.\"\"\"\n    name = input(\"What is your name? \")\n    print(f\"Hello, {name}!\")\n\ngreet()",
+      "explanation": "We wrap our code in a function to make it reusable.",
+      "diff": {
+        "added": ["", "def greet():", "    \"\"\"Greets the user.\"\"\"", "    name = input(\"What is your name? \")", "    print(f\"Hello, {name}!\")", "", "greet()"],
+        "removed": ["name = input(\"What is your name? \")", "print(f\"Hello, {name}!\")"]
+      },
+      "speedExplanations": {
+        "low": "def creates a function. Call it with greet().",
+        "medium": "Functions group code that belongs together. 'def' defines a function, the code inside is indented. Call it with greet(). The triple-quoted string is a docstring that documents what it does.",
+        "high": "Functions are reusable blocks of code. 'def greet():' defines a function named 'greet'. Everything indented below belongs to the function. The triple-quoted string (docstring) documents what the function does. The function doesn't run until we call it with 'greet()'. Now we can greet multiple people by calling greet() multiple times!"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Adding a Parameter",
+      "code": "# My First Python Program\n\ndef greet(name):\n    \"\"\"Greets a person by name.\"\"\"\n    print(f\"Hello, {name}!\")\n\nuser_name = input(\"What is your name? \")\ngreet(user_name)",
+      "explanation": "Now the function takes a name as a parameter, making it more flexible.",
+      "diff": {
+        "added": ["def greet(name):", "    \"\"\"Greets a person by name.\"\"\"", "    print(f\"Hello, {name}!\")", "", "user_name = input(\"What is your name? \")", "greet(user_name)"],
+        "removed": ["def greet():", "    \"\"\"Greets the user.\"\"\"", "    name = input(\"What is your name? \")", "    print(f\"Hello, {name}!\")", "", "greet()"]
+      },
+      "speedExplanations": {
+        "low": "Function now takes 'name' parameter. Pass value when calling.",
+        "medium": "Parameters let functions accept input. Now greet(name) takes any name you pass to it. We get input separately and pass it to the function. This separates concerns: input handling vs greeting logic.",
+        "high": "Parameters make functions flexible. 'def greet(name):' means greet expects one input called 'name'. When we call 'greet(user_name)', the value in user_name is passed to the function's name parameter. This separation of concerns is good design: the function just greets, it doesn't care where the name came from. You could now use greet() with names from a file, database, or anywhere!"
+      }
+    },
+    {
+      "id": 6,
+      "title": "Complete Greeter",
+      "code": "# My First Python Program\n# A simple greeter that welcomes users by name\n\ndef greet(name):\n    \"\"\"Greets a person by name.\n    \n    Args:\n        name: The name of the person to greet.\n    \"\"\"\n    print(f\"Hello, {name}!\")\n    print(\"Welcome to Python programming!\")\n\ndef main():\n    \"\"\"Main function - entry point of the program.\"\"\"\n    user_name = input(\"What is your name? \")\n    greet(user_name)\n    print(\"Goodbye!\")\n\nif __name__ == \"__main__\":\n    main()",
+      "explanation": "The complete program with proper structure, documentation, and a main function.",
+      "diff": {
+        "added": ["# A simple greeter that welcomes users by name", "", "    \"\"\"Greets a person by name.", "    ", "    Args:", "        name: The name of the person to greet.", "    \"\"\"", "    print(\"Welcome to Python programming!\")", "", "def main():", "    \"\"\"Main function - entry point of the program.\"\"\"", "    user_name = input(\"What is your name? \")", "    greet(user_name)", "    print(\"Goodbye!\")", "", "if __name__ == \"__main__\":", "    main()"],
+        "removed": ["    \"\"\"Greets a person by name.\"\"\"", "", "user_name = input(\"What is your name? \")", "greet(user_name)"]
+      },
+      "speedExplanations": {
+        "low": "Complete structure with main() and if __name__ guard. Professional Python pattern.",
+        "medium": "This is the standard Python program structure. main() contains the program logic. The 'if __name__ == \"__main__\"' line ensures main() only runs when the file is executed directly, not when imported. The docstring now includes Args documentation.",
+        "high": "This is professional Python structure. We have: (1) A file comment explaining the program, (2) Functions with detailed docstrings including Args documentation, (3) A main() function as the program entry point, (4) The 'if __name__ == \"__main__\"' guard. This guard checks if the file is being run directly (python greeter.py) vs imported as a module. If run directly, __name__ equals \"__main__\" and main() executes. If imported, this code is skipped. This pattern lets your code be both a runnable program AND an importable module!"
+      }
+    }
+  ]
+}

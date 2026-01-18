@@ -1,0 +1,151 @@
+import { useEffect } from 'react';
+import { useProjectStore } from './stores/projectStore';
+import { CodeViewer } from './components/CodeViewer';
+import { StateNavigator } from './components/StateNavigator';
+import { ExplanationPanel } from './components/ExplanationPanel';
+import { ControlPanel } from './components/ControlPanel';
+import { Chatbox } from './components/Chatbox';
+import { askClaude } from './api/claude';
+import type { ChatMessage } from './types';
+import './index.css';
+
+/**
+ * Main App Component
+ *
+ * Layout:
+ * - Top: ControlPanel (speed control, project name)
+ * - Middle Left: CodeViewer (Monaco editor with code)
+ * - Middle Right Top: ExplanationPanel (step explanation)
+ * - Middle Right Bottom: Chatbox (ask questions)
+ * - Bottom: StateNavigator (timeline navigation)
+ */
+function App() {
+  const {
+    currentProject,
+    currentStateIndex,
+    speed,
+    isLoading,
+    loadProject,
+    nextState,
+    prevState,
+    jumpToState,
+    setSpeed,
+    addChatMessage,
+    getChatMessages,
+    setLoading,
+  } = useProjectStore();
+
+  // Load the greeter project on mount
+  useEffect(() => {
+    loadProject('greeter');
+  }, [loadProject]);
+
+  // Get current state data
+  const currentState = currentProject?.states[currentStateIndex];
+  const explanation = currentState?.speedExplanations[speed] || '';
+  const messages = getChatMessages(currentStateIndex);
+
+  // Handle sending a chat message
+  const handleSendMessage = async (message: string) => {
+    if (!currentProject || !currentState) return;
+
+    // Add user message
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      content: message,
+      timestamp: Date.now(),
+      stateId: currentStateIndex,
+    };
+    addChatMessage(currentStateIndex, userMessage);
+
+    // Get AI response
+    setLoading(true);
+    try {
+      const response = await askClaude(message, {
+        code: currentState.code,
+        explanation: currentState.explanation,
+        stateId: currentStateIndex,
+        projectName: currentProject.name,
+      });
+
+      // Add assistant message
+      const assistantMessage: ChatMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: response,
+        timestamp: Date.now(),
+        stateId: currentStateIndex,
+      };
+      addChatMessage(currentStateIndex, assistantMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Loading state
+  if (!currentProject || !currentState) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <p className="text-white text-xl">Loading project...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-900 p-4 flex flex-col gap-4">
+      {/* Top: Control Panel */}
+      <ControlPanel
+        speed={speed}
+        projectName={currentProject.name}
+        onSpeedChange={setSpeed}
+      />
+
+      {/* Middle: Main content area */}
+      <div className="flex-1 flex gap-4 min-h-0">
+        {/* Left: Code Viewer */}
+        <div className="flex-1 min-w-0">
+          <CodeViewer
+            code={currentState.code}
+            language={currentProject.language}
+            diff={currentState.diff}
+          />
+        </div>
+
+        {/* Right: Explanation + Chatbox */}
+        <div className="w-96 flex flex-col gap-4 min-h-0">
+          {/* Explanation Panel */}
+          <div className="h-1/2 min-h-0">
+            <ExplanationPanel
+              title={currentState.title}
+              explanation={explanation}
+              stateNumber={currentStateIndex}
+              totalStates={currentProject.states.length}
+            />
+          </div>
+
+          {/* Chatbox */}
+          <div className="h-1/2 min-h-0">
+            <Chatbox
+              stateId={currentStateIndex}
+              messages={messages}
+              onSendMessage={handleSendMessage}
+              isLoading={isLoading}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom: State Navigator */}
+      <StateNavigator
+        totalStates={currentProject.states.length}
+        currentState={currentStateIndex}
+        onStateChange={jumpToState}
+        onPrev={prevState}
+        onNext={nextState}
+      />
+    </div>
+  );
+}
+
+export default App;
