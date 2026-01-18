@@ -93,18 +93,20 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-4 flex flex-col gap-4">
+    <div className="h-screen bg-gray-900 p-4 flex flex-col gap-3 overflow-hidden">
       {/* Top: Control Panel */}
-      <ControlPanel
-        speed={speed}
-        projectName={currentProject.name}
-        onSpeedChange={setSpeed}
-      />
+      <div className="flex-shrink-0">
+        <ControlPanel
+          speed={speed}
+          projectName={currentProject.name}
+          onSpeedChange={setSpeed}
+        />
+      </div>
 
       {/* Middle: Main content area */}
-      <div className="flex-1 flex gap-4 min-h-0">
+      <div className="flex-1 flex gap-4 min-h-0 overflow-hidden">
         {/* Left: Code Viewer */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 min-h-0">
           <CodeViewer
             code={currentState.code}
             language={currentProject.language}
@@ -113,9 +115,9 @@ function App() {
         </div>
 
         {/* Right: Explanation + Chatbox */}
-        <div className="w-96 flex flex-col gap-4 min-h-0">
+        <div className="w-96 flex flex-col gap-3 min-h-0 overflow-hidden">
           {/* Explanation Panel */}
-          <div className="h-1/2 min-h-0">
+          <div className="flex-1 min-h-0 overflow-hidden">
             <ExplanationPanel
               title={currentState.title}
               explanation={explanation}
@@ -125,7 +127,7 @@ function App() {
           </div>
 
           {/* Chatbox */}
-          <div className="h-1/2 min-h-0">
+          <div className="flex-1 min-h-0 overflow-hidden">
             <Chatbox
               stateId={currentStateIndex}
               messages={messages}
@@ -137,13 +139,15 @@ function App() {
       </div>
 
       {/* Bottom: State Navigator */}
-      <StateNavigator
-        totalStates={currentProject.states.length}
-        currentState={currentStateIndex}
-        onStateChange={jumpToState}
-        onPrev={prevState}
-        onNext={nextState}
-      />
+      <div className="flex-shrink-0">
+        <StateNavigator
+          totalStates={currentProject.states.length}
+          currentState={currentStateIndex}
+          onStateChange={jumpToState}
+          onPrev={prevState}
+          onNext={nextState}
+        />
+      </div>
     </div>
   );
 }
