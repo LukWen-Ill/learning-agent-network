@@ -22,7 +22,7 @@ const quickQuestions = [
  * and the AI responds in the context of the current code state.
  */
 export function Chatbox({
-  stateId,
+  stateId: _stateId,
   messages,
   onSendMessage,
   isLoading,
@@ -54,13 +54,12 @@ export function Chatbox({
   return (
     <div className="bg-gray-800 rounded-lg flex flex-col h-full">
       {/* Header */}
-      <div className="p-3 border-b border-gray-700">
-        <h3 className="text-white font-medium">Ask about this step</h3>
-        <p className="text-gray-400 text-xs">Step {stateId + 1}</p>
+      <div className="flex-shrink-0 p-3 border-b border-gray-700">
+        <h3 className="text-white font-medium text-sm">Ask about this step</h3>
       </div>
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[150px]">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
         {messages.length === 0 ? (
           <p className="text-gray-500 text-sm text-center py-4">
             No messages yet. Ask a question about the code!
@@ -88,7 +87,7 @@ export function Chatbox({
       </div>
 
       {/* Quick questions */}
-      <div className="p-2 border-t border-gray-700 flex gap-2 flex-wrap">
+      <div className="flex-shrink-0 p-2 border-t border-gray-700 flex gap-2 flex-wrap">
         {quickQuestions.map((q) => (
           <button
             key={q}
@@ -104,7 +103,7 @@ export function Chatbox({
       </div>
 
       {/* Input area */}
-      <div className="p-3 border-t border-gray-700 flex gap-2">
+      <div className="flex-shrink-0 p-2 border-t border-gray-700 flex gap-2">
         <input
           type="text"
           value={input}
