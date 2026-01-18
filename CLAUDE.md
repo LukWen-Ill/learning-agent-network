@@ -47,13 +47,11 @@ When implementing features, Claude Code should follow the Standard Operating Pro
 ## Commands
 
 ```bash
-# Create project
-npm create vite@latest slow-llm-coder -- --template react-ts
+# Navigate to app directory
+cd slow-llm-coder
 
 # Install dependencies
-npm install @monaco-editor/react zustand @tanstack/react-query
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+npm install
 
 # Development
 npm run dev
@@ -78,7 +76,7 @@ Each code change is a "state" (finer than git commits). Students navigate betwee
 interface Project {
   id: string;
   name: string;
-  language: 'python' | 'javascript' | 'java';
+  language: 'python' | 'javascript';
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   states: CodeState[];
 }
@@ -98,26 +96,26 @@ interface CodeState {
 - `CodeViewer` - Monaco editor with syntax highlighting and diff visualization
 - `StateNavigator` - Timeline slider and prev/next step buttons
 - `Chatbox` - AI chat per state (questions answered in context of current code state)
-- `ControlPanel` - Speed slider (3 levels), language selector
+- `ControlPanel` - Speed slider (3 levels)
 - `ExplanationPanel` - Shows step title and explanation
-- `DiffViewer` - Visualizes code changes between states
 
 ### State Store (Zustand)
 
-Central store manages: current project, state index, speed setting, language, and chat history per state.
+Central store manages: current project, state index, speed setting, and chat history per state.
 
 ### Project Data
 
-Projects are stored as JSON files in `src/data/projects/`. MVP uses hardcoded projects (e.g., calculator tutorial with ~10-15 states).
+Projects are stored as JSON files in `src/data/projects/`. MVP uses hardcoded greeter project.
 
 ## Three Main Controls
 
-1. **Speed** (Help level): low = AI codes mostly, medium = 50/50, high = student codes with guidance
-2. **Temperature** (Post-MVP): Code complexity modes (simple/normal/hardcore)
+1. **Speed** (Help level): low = brief explanations, medium = balanced, high = detailed guidance
+2. **Temperature** (Post-MVP): Code complexity modes
 3. **Language**: Programming language selection (MVP: Python only)
 
 ## Environment Variables
 
+Create `.env` file in `slow-llm-coder/`:
 ```
 VITE_CLAUDE_API_KEY=your_api_key_here
 ```
