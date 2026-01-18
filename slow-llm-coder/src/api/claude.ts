@@ -16,8 +16,9 @@ export async function askClaude(
 ): Promise<string> {
   const apiKey = import.meta.env.VITE_CLAUDE_API_KEY;
 
+  // Use mock responses if no API key (MVP mode)
   if (!apiKey) {
-    return 'API key not configured. Please add VITE_CLAUDE_API_KEY to your .env file.';
+    return getMockResponse(question, context);
   }
 
   try {
@@ -82,11 +83,29 @@ Do not use markdown formatting - respond in plain text.`;
 /**
  * Mock response for development without API key
  */
-export function getMockResponse(_question: string): string {
+function getMockResponse(question: string, context: ChatContext): string {
+  // Simulate API delay
+  const lowerQ = question.toLowerCase();
+
+  if (lowerQ.includes('why') || lowerQ.includes('change')) {
+    return `This change was made to teach you about ${context.explanation.split(' ').slice(0, 5).join(' ')}... Each step builds on the previous one, introducing one new concept at a time.`;
+  }
+
+  if (lowerQ.includes('explain') || lowerQ.includes('simpler')) {
+    return `In simple terms: ${context.explanation} Think of it like building blocks - we add one piece at a time until we have a complete program.`;
+  }
+
+  if (lowerQ.includes('line') || lowerQ.includes('what does')) {
+    const lines = context.code.split('\n').filter(l => l.trim());
+    const lastLine = lines[lines.length - 1];
+    return `The key line here is: "${lastLine.trim()}". This is where the main action happens in this step.`;
+  }
+
   const responses = [
-    "That's a great question! This code is using a fundamental Python concept.",
-    "Let me explain this step by step. The key thing to understand here is how the code flows.",
-    "Good thinking! This is actually a common pattern in Python programming.",
+    `Great question! At step ${context.stateId + 1}, we're focusing on: ${context.explanation}`,
+    `This is a fundamental Python concept. ${context.explanation} Practice this pattern - you'll use it often!`,
+    `Good thinking! The code here demonstrates: ${context.explanation.split('.')[0]}.`,
   ];
+
   return responses[Math.floor(Math.random() * responses.length)];
 }
