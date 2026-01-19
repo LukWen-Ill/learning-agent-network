@@ -14,6 +14,7 @@ Before starting any implementation task:
 - [ ] Check existing patterns in the codebase
 - [ ] Review DATABASE-SCHEMA.md for data models
 - [ ] Identify dependencies and related features
+- [ ] Start feature branch: `/git-start feature-name`
 
 ---
 
@@ -357,6 +358,10 @@ If you've introduced new patterns or conventions, document them.
 ---
 
 ## Commit Message Format
+
+For detailed git workflow including branching strategy and PR process, see `docs/GIT-WORKFLOW.md`.
+
+Quick reference:
 
 ```
 type(scope): description

@@ -60,6 +60,28 @@ npm run dev
 npm run build
 ```
 
+## Git Workflow Commands
+
+```bash
+# Start new feature
+/git-start feature-name
+
+# Make smart commit
+/git-commit [optional-message]
+
+# Check status
+/git-status
+
+# Sync with main
+/git-sync
+
+# Finish feature
+/git-finish
+
+# Setup git hooks (one-time)
+./scripts/setup-git-hooks.sh
+```
+
 ## Architecture
 
 ### Core Concept: State-based Code Navigation
@@ -151,6 +173,9 @@ VITE_CLAUDE_API_KEY=your_api_key_here
 | SOP Guide | `docs/SOP-CLAUDE-CODE.md` | Standard Operating Procedure |
 | Implementation Guide | `docs/IMPLEMENTATION-GUIDE.md` | Step-by-step build instructions |
 | SOP Agent Prompt | `.claude/prompts/sop-implementation-agent.md` | Reusable implementation prompt |
+| **Git Workflow** | `docs/GIT-WORKFLOW.md` | Branch naming, commit conventions, PR process |
+| **Git Skill** | `.claude/agents/git.md` | Automated git commands |
+| **Git Hooks** | `.git-hooks/README.md` | Pre-commit validation setup |
 
 ## How to Use Documentation
 
@@ -187,3 +212,11 @@ Read `docs/SOP-CLAUDE-CODE.md` for:
 - File naming conventions
 - Commit message format
 - Quality gates checklist
+
+### Git Workflow
+
+For git operations:
+1. Use the git skill: `/git-start`, `/git-commit`, `/git-status`, `/git-finish`, `/git-sync`
+2. Reference workflow guide: `docs/GIT-WORKFLOW.md`
+3. Install git hooks (one-time): `./scripts/setup-git-hooks.sh`
+4. See hook documentation: `.git-hooks/README.md`

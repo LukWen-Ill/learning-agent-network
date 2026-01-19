@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# pre-commit hook for Slow LLM Coding Agent
+# Validates code quality before commit
+
+staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+# Check for console.log in TypeScript/JavaScript files
+echo "Checking for console statements..."
+ts_files=$(echo "$staged_files" | grep -E '\.(ts|tsx|js|jsx)$')
+
+if [ -n "$ts_files" ]; then
+  console_logs=$(echo "$ts_files" | xargs grep -n "console\." 2>/dev/null || true)
+
+  if [ -n "$console_logs" ]; then
+    echo "⚠️  WARNING: Found console statements in staged files:"
+    echo "$console_logs"
+    echo ""
+    echo "Consider removing console.log before committing."
+    echo "Press Enter to continue anyway, or Ctrl+C to abort."
+    read -r
+  fi
+fi
+
+# Check for debugger statements
+echo "Checking for debugger statements..."
+if [ -n "$ts_files" ]; then
+  debuggers=$(echo "$ts_files" | xargs grep -n "debugger" 2>/dev/null || true)
+
+  if [ -n "$debuggers" ]; then
+    echo "❌ ERROR: Found debugger statements in staged files:"
+    echo "$debuggers"
+    echo ""
+    echo "Remove debugger statements before committing."
+    exit 1
+  fi
+fi
+
+# Check TypeScript compilation (warning only)
+if [ -f "slow-llm-coder/tsconfig.json" ]; then
+  echo "Checking TypeScript compilation..."
+  cd slow-llm-coder || exit 1
+
+  if ! npm run type-check >/dev/null 2>&1; then
+    echo "⚠️  WARNING: TypeScript compilation has errors"
+    echo "Run 'npm run type-check' to see details"
+    echo ""
+    echo "Press Enter to continue anyway, or Ctrl+C to abort."
+    read -r
+  else
+    echo "✓ TypeScript compilation successful"
+  fi
+
+  cd ..
+fi
+
+# Success
+echo "✓ Pre-commit checks passed"
+exit 0

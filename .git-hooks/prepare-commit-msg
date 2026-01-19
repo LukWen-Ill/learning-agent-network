@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# prepare-commit-msg hook
+# Automatically adds Co-Authored-By footer if not present
+
+commit_msg_file=$1
+commit_source=$2
+
+# Only add footer for regular commits (not merge, squash, etc.)
+if [ "$commit_source" = "message" ] || [ -z "$commit_source" ]; then
+  co_author="Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+  # Check if Co-Authored-By already exists
+  if ! grep -q "Co-Authored-By:" "$commit_msg_file"; then
+    # Add blank line and footer
+    echo "" >> "$commit_msg_file"
+    echo "$co_author" >> "$commit_msg_file"
+  fi
+fi
