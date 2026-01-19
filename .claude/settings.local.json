@@ -9,7 +9,10 @@
       "Bash(./node_modules/.bin/tailwindcss:*)",
       "Bash(npm run build:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet add package:*)"
     ]
-  }
+  },
+  "outputStyle": "Learning"
 }

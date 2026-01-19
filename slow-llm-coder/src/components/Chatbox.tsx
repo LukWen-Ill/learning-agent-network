@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import type { ChatMessage } from '../types';
 
 interface ChatboxProps {
-  stateId: number;
   messages: ChatMessage[];
   onSendMessage: (message: string) => Promise<void>;
   isLoading: boolean;
@@ -22,7 +21,6 @@ const quickQuestions = [
  * and the AI responds in the context of the current code state.
  */
 export function Chatbox({
-  stateId: _stateId,
   messages,
   onSendMessage,
   isLoading,

@@ -1,6 +1,6 @@
 import Editor, { type OnMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import type { Diff } from '../types';
 
 interface CodeViewerProps {
@@ -19,20 +19,8 @@ export function CodeViewer({ code, language, diff }: CodeViewerProps) {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const decorationsRef = useRef<editor.IEditorDecorationsCollection | null>(null);
 
-  // Handle editor mount
-  const handleEditorMount: OnMount = (editor) => {
-    editorRef.current = editor;
-    decorationsRef.current = editor.createDecorationsCollection([]);
-    applyDiffHighlights();
-  };
-
-  // Apply diff highlighting when diff changes
-  useEffect(() => {
-    applyDiffHighlights();
-  }, [diff, code]);
-
   // Apply green/red highlights for added/removed lines
-  const applyDiffHighlights = () => {
+  const applyDiffHighlights = useCallback(() => {
     if (!editorRef.current || !decorationsRef.current) return;
 
     const decorations: editor.IModelDeltaDecoration[] = [];
@@ -61,7 +49,19 @@ export function CodeViewer({ code, language, diff }: CodeViewerProps) {
     }
 
     decorationsRef.current.set(decorations);
-  };
+  }, [diff, code]);
+
+  // Handle editor mount
+  const handleEditorMount: OnMount = useCallback((editor) => {
+    editorRef.current = editor;
+    decorationsRef.current = editor.createDecorationsCollection([]);
+    applyDiffHighlights();
+  }, [applyDiffHighlights]);
+
+  // Apply diff highlighting when diff changes
+  useEffect(() => {
+    applyDiffHighlights();
+  }, [applyDiffHighlights]);
 
   return (
     <div className="h-full w-full rounded-lg overflow-hidden border border-gray-700">

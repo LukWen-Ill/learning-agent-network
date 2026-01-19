@@ -1,0 +1,201 @@
+{
+  "id": "calculator",
+  "name": "Build a Calculator",
+  "description": "Learn Python fundamentals by building a fully functional calculator with add, subtract, multiply, and divide operations.",
+  "language": "python",
+  "difficulty": "beginner",
+  "states": [
+    {
+      "id": 0,
+      "title": "Project Setup",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step",
+      "explanation": "Every project starts with a clear description of what we're building.",
+      "diff": null,
+      "speedExplanations": {
+        "low": "Comments describe what the program does.",
+        "medium": "We start with comments that explain the purpose of our program. Comments begin with # and are ignored by Python - they're notes for humans reading the code.",
+        "high": "Every good program starts with documentation. Lines beginning with # are comments - Python ignores them completely, but they help humans understand the code.\n\nWe'll build a calculator that can:\n- Add two numbers\n- Subtract two numbers\n- Multiply two numbers\n- Divide two numbers\n\nLet's start coding!"
+      }
+    },
+    {
+      "id": 1,
+      "title": "First Function: Addition",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b",
+      "explanation": "Our first function performs addition.",
+      "diff": {
+        "added": ["", "def add(a, b):", "    \"\"\"Add two numbers and return the result.\"\"\"", "    return a + b"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`def` creates a function. `return` sends back the result.",
+        "medium": "Functions are reusable blocks of code. `def add(a, b):` creates a function named 'add' that takes two parameters. The `return` statement sends the result back to whoever called the function.",
+        "high": "## Functions in Python\n\nA **function** is a reusable block of code that performs a specific task.\n\n```python\ndef add(a, b):\n```\n\n- `def` = keyword to define a function\n- `add` = the function's name\n- `(a, b)` = parameters (inputs the function accepts)\n- `:` = marks the start of the function body\n\nThe **docstring** (text in triple quotes) describes what the function does.\n\n`return a + b` calculates the sum and sends it back to the caller."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Subtraction Function",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b",
+      "explanation": "Following the same pattern, we add subtraction.",
+      "diff": {
+        "added": ["", "def subtract(a, b):", "    \"\"\"Subtract b from a and return the result.\"\"\"", "    return a - b"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "Same pattern as add, but uses `-` for subtraction.",
+        "medium": "We follow the exact same pattern: define a function with two parameters, add a docstring, and return the calculation. Notice how consistent code is easier to read and maintain.",
+        "high": "## Code Patterns\n\nNotice the **pattern** emerging:\n\n1. `def function_name(a, b):` - define with two parameters\n2. `\"\"\"Docstring\"\"\"` - describe what it does\n3. `return a [operator] b` - calculate and return\n\nThis consistency makes code:\n- **Readable** - others know what to expect\n- **Maintainable** - easy to add more operations\n- **Predictable** - same structure = fewer bugs"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Multiplication Function",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b",
+      "explanation": "Multiplication follows the same pattern we've established.",
+      "diff": {
+        "added": ["", "def multiply(a, b):", "    \"\"\"Multiply two numbers and return the result.\"\"\"", "    return a * b"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`*` is the multiplication operator in Python.",
+        "medium": "In Python, `*` performs multiplication (not `x` like in math). The pattern is now clear - each arithmetic operation is its own function with two parameters.",
+        "high": "## Python Operators\n\nPython uses these symbols for math:\n- `+` addition\n- `-` subtraction\n- `*` multiplication (not × or x)\n- `/` division\n- `**` exponentiation (power)\n- `%` modulo (remainder)\n\nWe use `*` because `x` could be confused with a variable name."
+      }
+    },
+    {
+      "id": 4,
+      "title": "Division with Error Handling",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b",
+      "explanation": "Division needs special handling - we can't divide by zero!",
+      "diff": {
+        "added": ["", "def divide(a, b):", "    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"", "    if b == 0:", "        print(\"Error: Cannot divide by zero!\")", "        return None", "    return a / b"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`if` checks a condition. We prevent division by zero.",
+        "medium": "Division is different - dividing by zero is mathematically undefined and would crash our program. We use an `if` statement to check if `b == 0` before dividing. If it is, we show an error and return `None` (Python's way of saying 'no value').",
+        "high": "## Conditional Logic\n\nThe `if` statement lets us make decisions:\n\n```python\nif b == 0:\n    # This runs only if b equals 0\n    print(\"Error: Cannot divide by zero!\")\n    return None\n```\n\n- `==` compares two values (different from `=` which assigns)\n- The indented code only runs if the condition is `True`\n- `return None` exits the function with no meaningful value\n\n**Why handle this?** Without the check, `5 / 0` would crash the program with a `ZeroDivisionError`."
+      }
+    },
+    {
+      "id": 5,
+      "title": "Display Menu",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")",
+      "explanation": "A menu helps users know what options are available.",
+      "diff": {
+        "added": ["", "def display_menu():", "    \"\"\"Display the calculator menu.\"\"\"", "    print(\"\\n=== Calculator ===\")", "    print(\"1. Add\")", "    print(\"2. Subtract\")", "    print(\"3. Multiply\")", "    print(\"4. Divide\")", "    print(\"5. Exit\")"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "Multiple `print()` statements create a menu. `\\n` adds a blank line.",
+        "medium": "This function displays a user-friendly menu. `\\n` is an escape sequence that creates a new line (adds spacing). Numbered options make it easy for users to choose an operation.",
+        "high": "## User Interface Design\n\nGood programs guide users. Our menu:\n\n1. **Clear title** - `=== Calculator ===` shows what program they're using\n2. **Numbered options** - Easy to type a single digit\n3. **Exit option** - Always let users quit gracefully\n\n**Escape sequences:**\n- `\\n` = newline (blank line)\n- `\\t` = tab\n- `\\\\` = backslash itself\n\nThe `\\n` at the start adds visual separation between runs."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Get Number from User",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user.\"\"\"\n    value = input(prompt)\n    return float(value)",
+      "explanation": "We need a way to get numbers from the user.",
+      "diff": {
+        "added": ["", "def get_number(prompt):", "    \"\"\"Get a number from the user.\"\"\"", "    value = input(prompt)", "    return float(value)"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`input()` gets text, `float()` converts it to a decimal number.",
+        "medium": "The `input()` function always returns text (a string). Since we need numbers for math, we convert it with `float()`. Float handles both whole numbers (5) and decimals (3.14).",
+        "high": "## Type Conversion\n\nPython has different data types:\n- `str` (string) - text: `\"hello\"`, `\"42\"`\n- `int` (integer) - whole numbers: `42`, `-7`\n- `float` - decimal numbers: `3.14`, `42.0`\n\n`input()` always returns a string, even if the user types `42`. We can't do math with strings:\n\n```python\n\"5\" + \"3\"  # Results in \"53\" (concatenation)\nfloat(\"5\") + float(\"3\")  # Results in 8.0 (math)\n```\n\nWe use `float()` instead of `int()` so users can enter decimals like `3.5`."
+      }
+    },
+    {
+      "id": 7,
+      "title": "Get User Choice",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user.\"\"\"\n    value = input(prompt)\n    return float(value)\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")",
+      "explanation": "We also need to get the user's menu selection.",
+      "diff": {
+        "added": ["", "def get_choice():", "    \"\"\"Get the user's menu choice.\"\"\"", "    return input(\"Enter your choice (1-5): \")"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "Simple function that returns the user's menu choice as text.",
+        "medium": "This function prompts for and returns the user's choice. We keep it as a string since we'll compare it to \"1\", \"2\", etc. Separating input into its own function keeps code organized.",
+        "high": "## Function Design Principles\n\nWhy make a separate function for one line of code?\n\n1. **Single Responsibility** - Each function does ONE thing\n2. **Readability** - `get_choice()` is clearer than `input(\"Enter...\")`\n3. **Reusability** - If we need to change the prompt, we change one place\n4. **Testability** - We can test input handling separately\n\nWe return a string here (not converting to int) because we'll compare it to string values like `\"1\"`, `\"2\"`, etc."
+      }
+    },
+    {
+      "id": 8,
+      "title": "Calculation Logic",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user.\"\"\"\n    value = input(prompt)\n    return float(value)\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")\n\ndef calculate(choice, num1, num2):\n    \"\"\"Perform the calculation based on user's choice.\"\"\"\n    if choice == \"1\":\n        return add(num1, num2)\n    elif choice == \"2\":\n        return subtract(num1, num2)\n    elif choice == \"3\":\n        return multiply(num1, num2)\n    elif choice == \"4\":\n        return divide(num1, num2)\n    else:\n        print(\"Invalid choice!\")\n        return None",
+      "explanation": "Now we connect user choices to our math functions.",
+      "diff": {
+        "added": ["", "def calculate(choice, num1, num2):", "    \"\"\"Perform the calculation based on user's choice.\"\"\"", "    if choice == \"1\":", "        return add(num1, num2)", "    elif choice == \"2\":", "        return subtract(num1, num2)", "    elif choice == \"3\":", "        return multiply(num1, num2)", "    elif choice == \"4\":", "        return divide(num1, num2)", "    else:", "        print(\"Invalid choice!\")", "        return None"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`if/elif/else` checks multiple conditions. Routes choice to correct function.",
+        "medium": "The `if/elif/else` chain checks conditions in order. `elif` means 'else if' - it only checks if previous conditions were False. `else` catches anything that didn't match. This function routes the user's choice to the appropriate math function.",
+        "high": "## Control Flow: if/elif/else\n\n```python\nif choice == \"1\":      # Check first\n    return add(...)\nelif choice == \"2\":    # Only if first was False\n    return subtract(...)\nelif choice == \"3\":    # Only if both above were False\n    return multiply(...)\nelse:                  # If nothing matched\n    print(\"Invalid!\")\n```\n\n**How it works:**\n1. Conditions are checked top-to-bottom\n2. First `True` condition runs, then exits\n3. `else` is the fallback (no condition needed)\n\nThis pattern is called a **dispatch** - routing input to the appropriate handler."
+      }
+    },
+    {
+      "id": 9,
+      "title": "Main Function",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user.\"\"\"\n    value = input(prompt)\n    return float(value)\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")\n\ndef calculate(choice, num1, num2):\n    \"\"\"Perform the calculation based on user's choice.\"\"\"\n    if choice == \"1\":\n        return add(num1, num2)\n    elif choice == \"2\":\n        return subtract(num1, num2)\n    elif choice == \"3\":\n        return multiply(num1, num2)\n    elif choice == \"4\":\n        return divide(num1, num2)\n    else:\n        print(\"Invalid choice!\")\n        return None\n\ndef main():\n    \"\"\"Main function - runs the calculator.\"\"\"\n    display_menu()\n    choice = get_choice()\n    \n    if choice == \"5\":\n        print(\"Goodbye!\")\n        return\n    \n    num1 = get_number(\"Enter first number: \")\n    num2 = get_number(\"Enter second number: \")\n    \n    result = calculate(choice, num1, num2)\n    if result is not None:\n        print(f\"Result: {result}\")",
+      "explanation": "The main function ties everything together.",
+      "diff": {
+        "added": ["", "def main():", "    \"\"\"Main function - runs the calculator.\"\"\"", "    display_menu()", "    choice = get_choice()", "    ", "    if choice == \"5\":", "        print(\"Goodbye!\")", "        return", "    ", "    num1 = get_number(\"Enter first number: \")", "    num2 = get_number(\"Enter second number: \")", "    ", "    result = calculate(choice, num1, num2)", "    if result is not None:", "        print(f\"Result: {result}\")"],
+        "removed": []
+      },
+      "speedExplanations": {
+        "low": "`main()` orchestrates the program flow: show menu, get inputs, calculate, display result.",
+        "medium": "The `main()` function is the program's entry point. It orchestrates the flow:\n1. Show the menu\n2. Get user's choice\n3. Handle exit (choice 5)\n4. Get two numbers\n5. Calculate and display result\n\nWe check `if result is not None` because divide() returns None on error.",
+        "high": "## Program Structure\n\nThe `main()` function is the **orchestrator** - it doesn't do calculations, it coordinates other functions:\n\n```python\ndef main():\n    display_menu()          # 1. Show options\n    choice = get_choice()   # 2. Get selection\n    \n    if choice == \"5\":       # 3. Handle exit early\n        return\n    \n    num1 = get_number(...)  # 4. Get inputs\n    num2 = get_number(...)\n    \n    result = calculate(...) # 5. Do the work\n    if result is not None:  # 6. Show result\n        print(f\"Result: {result}\")\n```\n\n**Early return:** `return` exits the function immediately. If user chose \"5\" (exit), we say goodbye and stop - no need for numbers."
+      }
+    },
+    {
+      "id": 10,
+      "title": "Program Loop",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user.\"\"\"\n    value = input(prompt)\n    return float(value)\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")\n\ndef calculate(choice, num1, num2):\n    \"\"\"Perform the calculation based on user's choice.\"\"\"\n    if choice == \"1\":\n        return add(num1, num2)\n    elif choice == \"2\":\n        return subtract(num1, num2)\n    elif choice == \"3\":\n        return multiply(num1, num2)\n    elif choice == \"4\":\n        return divide(num1, num2)\n    else:\n        print(\"Invalid choice!\")\n        return None\n\ndef main():\n    \"\"\"Main function - runs the calculator.\"\"\"\n    while True:\n        display_menu()\n        choice = get_choice()\n        \n        if choice == \"5\":\n            print(\"Goodbye!\")\n            break\n        \n        num1 = get_number(\"Enter first number: \")\n        num2 = get_number(\"Enter second number: \")\n        \n        result = calculate(choice, num1, num2)\n        if result is not None:\n            print(f\"Result: {result}\")",
+      "explanation": "A while loop lets users perform multiple calculations.",
+      "diff": {
+        "added": ["    while True:", "            break"],
+        "removed": ["        return"]
+      },
+      "speedExplanations": {
+        "low": "`while True` runs forever. `break` exits the loop.",
+        "medium": "`while True` creates an infinite loop - the code inside repeats forever. We use `break` to exit the loop when the user chooses option 5. This lets users do multiple calculations without restarting the program.",
+        "high": "## Loops: while True + break\n\n```python\nwhile True:        # Loop forever\n    ...            # Do stuff\n    if condition:\n        break      # Exit the loop\n```\n\nThis is called an **infinite loop with exit condition**. It's a common pattern for interactive programs:\n\n1. `while True` - Keep running\n2. Do one iteration of work\n3. Check if user wants to quit\n4. `break` - Exit the loop (not the whole program)\n\n**Why not `while choice != \"5\":`?** We'd need to get choice before the loop AND inside it. The `while True` + `break` pattern is cleaner."
+      }
+    },
+    {
+      "id": 11,
+      "title": "Input Validation",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user with validation.\"\"\"\n    while True:\n        value = input(prompt)\n        try:\n            return float(value)\n        except ValueError:\n            print(\"Please enter a valid number!\")\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")\n\ndef calculate(choice, num1, num2):\n    \"\"\"Perform the calculation based on user's choice.\"\"\"\n    if choice == \"1\":\n        return add(num1, num2)\n    elif choice == \"2\":\n        return subtract(num1, num2)\n    elif choice == \"3\":\n        return multiply(num1, num2)\n    elif choice == \"4\":\n        return divide(num1, num2)\n    else:\n        print(\"Invalid choice!\")\n        return None\n\ndef main():\n    \"\"\"Main function - runs the calculator.\"\"\"\n    while True:\n        display_menu()\n        choice = get_choice()\n        \n        if choice == \"5\":\n            print(\"Goodbye!\")\n            break\n        \n        num1 = get_number(\"Enter first number: \")\n        num2 = get_number(\"Enter second number: \")\n        \n        result = calculate(choice, num1, num2)\n        if result is not None:\n            print(f\"Result: {result}\")",
+      "explanation": "We add validation so the program doesn't crash on invalid input.",
+      "diff": {
+        "added": ["def get_number(prompt):", "    \"\"\"Get a number from the user with validation.\"\"\"", "    while True:", "        value = input(prompt)", "        try:", "            return float(value)", "        except ValueError:", "            print(\"Please enter a valid number!\")"],
+        "removed": ["def get_number(prompt):", "    \"\"\"Get a number from the user.\"\"\"", "    value = input(prompt)", "    return float(value)"]
+      },
+      "speedExplanations": {
+        "low": "`try/except` catches errors. Loop until valid input.",
+        "medium": "If a user types \"abc\" instead of a number, `float()` would crash the program. `try/except` catches this error gracefully. Combined with `while True`, we keep asking until we get valid input.",
+        "high": "## Exception Handling: try/except\n\n```python\ntry:\n    return float(value)      # Try this\nexcept ValueError:           # If it fails with ValueError\n    print(\"Invalid!\")        # Handle the error\n```\n\nWithout try/except:\n- User enters \"abc\"\n- `float(\"abc\")` crashes with `ValueError`\n- Program terminates\n\nWith try/except:\n- `float(\"abc\")` raises `ValueError`\n- `except` catches it\n- We show a friendly message\n- Loop continues, user can try again\n\nThis is **defensive programming** - anticipating what could go wrong."
+      }
+    },
+    {
+      "id": 12,
+      "title": "Complete Program",
+      "code": "# Simple Calculator\n# A command-line calculator built step by step\n\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a and return the result.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers and return the result.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b. Returns None if b is zero.\"\"\"\n    if b == 0:\n        print(\"Error: Cannot divide by zero!\")\n        return None\n    return a / b\n\ndef display_menu():\n    \"\"\"Display the calculator menu.\"\"\"\n    print(\"\\n=== Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n\ndef get_number(prompt):\n    \"\"\"Get a number from the user with validation.\"\"\"\n    while True:\n        value = input(prompt)\n        try:\n            return float(value)\n        except ValueError:\n            print(\"Please enter a valid number!\")\n\ndef get_choice():\n    \"\"\"Get the user's menu choice.\"\"\"\n    return input(\"Enter your choice (1-5): \")\n\ndef calculate(choice, num1, num2):\n    \"\"\"Perform the calculation based on user's choice.\"\"\"\n    if choice == \"1\":\n        return add(num1, num2)\n    elif choice == \"2\":\n        return subtract(num1, num2)\n    elif choice == \"3\":\n        return multiply(num1, num2)\n    elif choice == \"4\":\n        return divide(num1, num2)\n    else:\n        print(\"Invalid choice!\")\n        return None\n\ndef main():\n    \"\"\"Main function - runs the calculator.\"\"\"\n    print(\"Welcome to the Calculator!\")\n    \n    while True:\n        display_menu()\n        choice = get_choice()\n        \n        if choice == \"5\":\n            print(\"Thanks for using Calculator. Goodbye!\")\n            break\n        \n        num1 = get_number(\"Enter first number: \")\n        num2 = get_number(\"Enter second number: \")\n        \n        result = calculate(choice, num1, num2)\n        if result is not None:\n            print(f\"Result: {result}\")\n\nif __name__ == \"__main__\":\n    main()",
+      "explanation": "The complete calculator with professional Python structure.",
+      "diff": {
+        "added": ["    print(\"Welcome to the Calculator!\")", "    ", "            print(\"Thanks for using Calculator. Goodbye!\")", "", "if __name__ == \"__main__\":", "    main()"],
+        "removed": ["            print(\"Goodbye!\")"]
+      },
+      "speedExplanations": {
+        "low": "`if __name__ == \"__main__\"` runs main() only when file is executed directly.",
+        "medium": "We add a welcome message and improve the goodbye message. The `if __name__ == \"__main__\"` line is Python's standard way to mark the entry point. It ensures `main()` only runs when we execute this file directly, not when it's imported as a module.",
+        "high": "## The Complete Program\n\nCongratulations! You've built a fully functional calculator!\n\n**What we learned:**\n1. **Functions** - Reusable code blocks (`def`, `return`)\n2. **Conditionals** - Decision making (`if/elif/else`)\n3. **Loops** - Repetition (`while True`, `break`)\n4. **Input/Output** - User interaction (`input()`, `print()`)\n5. **Type conversion** - `float()` to convert strings to numbers\n6. **Error handling** - `try/except` for graceful failure\n7. **Program structure** - `main()` and `if __name__ == \"__main__\"`\n\n**The `if __name__` guard:**\nWhen Python runs a file, it sets `__name__` to `\"__main__\"`. When a file is imported, `__name__` is the module name. This lets our code work both as a program AND as an importable module."
+      }
+    }
+  ]
+}

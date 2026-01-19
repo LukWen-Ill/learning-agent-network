@@ -24,12 +24,14 @@ function App() {
     currentProject,
     currentStateIndex,
     speed,
+    showDiff,
     isLoading,
     loadProject,
     nextState,
     prevState,
     jumpToState,
     setSpeed,
+    toggleDiff,
     addChatMessage,
     getChatMessages,
     setLoading,
@@ -39,6 +41,30 @@ function App() {
   useEffect(() => {
     loadProject('greeter');
   }, [loadProject]);
+
+  // Keyboard navigation (arrow keys)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input field
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevState();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          nextState();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [prevState, nextState]);
 
   // Get current state data
   const currentState = currentProject?.states[currentStateIndex];
@@ -98,8 +124,11 @@ function App() {
       <div className="flex-shrink-0">
         <ControlPanel
           speed={speed}
-          projectName={currentProject.name}
+          projectId={currentProject.id}
+          showDiff={showDiff}
           onSpeedChange={setSpeed}
+          onToggleDiff={toggleDiff}
+          onProjectChange={loadProject}
         />
       </div>
 
@@ -110,7 +139,7 @@ function App() {
           <CodeViewer
             code={currentState.code}
             language={currentProject.language}
-            diff={currentState.diff}
+            diff={showDiff ? currentState.diff : null}
           />
         </div>
 
@@ -129,7 +158,6 @@ function App() {
           {/* Chatbox */}
           <div className="flex-1 min-h-0 overflow-hidden">
             <Chatbox
-              stateId={currentStateIndex}
               messages={messages}
               onSendMessage={handleSendMessage}
               isLoading={isLoading}

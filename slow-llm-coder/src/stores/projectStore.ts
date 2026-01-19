@@ -1,120 +1,238 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { Project, Speed, ChatMessage } from '../types';
 
-// Import project data (will be created next)
+// Import project data
 import greeterProject from '../data/projects/greeter.json';
+import calculatorProject from '../data/projects/calculator.json';
+
+// ============================================================================
+// Store Interface
+// ============================================================================
 
 interface ProjectStore {
-  // State
+  // Project State
   currentProject: Project | null;
   currentStateIndex: number;
-  speed: Speed;
-  chatHistory: Map<number, ChatMessage[]>;
   isLoading: boolean;
+  error: string | null;
 
-  // Actions
+  // User Preferences (persisted)
+  speed: Speed;
+  showDiff: boolean;
+
+  // Chat State
+  chatHistory: Map<number, ChatMessage[]>;
+
+  // Project Actions
   loadProject: (projectId: string) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+
+  // Navigation Actions
   nextState: () => void;
   prevState: () => void;
   jumpToState: (index: number) => void;
-  setSpeed: (speed: Speed) => void;
-  addChatMessage: (stateId: number, message: ChatMessage) => void;
-  setLoading: (loading: boolean) => void;
 
-  // Computed getters
+  // User Preference Actions
+  setSpeed: (speed: Speed) => void;
+  setShowDiff: (show: boolean) => void;
+  toggleDiff: () => void;
+
+  // Chat Actions
+  addChatMessage: (stateId: number, message: ChatMessage) => void;
+  clearChatHistory: () => void;
+
+  // Computed Getters
   getCurrentState: () => Project['states'][number] | null;
   getExplanation: () => string;
   getChatMessages: (stateId: number) => ChatMessage[];
+  getTotalStates: () => number;
+  isFirstState: () => boolean;
+  isLastState: () => boolean;
 }
 
-// Available projects (hardcoded for MVP)
+// ============================================================================
+// Available Projects (MVP: Hardcoded)
+// ============================================================================
+
 const projects: Record<string, Project> = {
   'greeter': greeterProject as Project,
+  'calculator': calculatorProject as Project,
 };
 
-export const useProjectStore = create<ProjectStore>((set, get) => ({
-  // Initial state
-  currentProject: null,
-  currentStateIndex: 0,
+// ============================================================================
+// Preferences Store (Persisted Separately)
+// ============================================================================
+
+interface PreferencesStore {
+  speed: Speed;
+  showDiff: boolean;
+}
+
+const defaultPreferences: PreferencesStore = {
   speed: 'medium',
-  chatHistory: new Map(),
-  isLoading: false,
+  showDiff: true,
+};
 
-  // Load a project by ID
-  loadProject: (projectId: string) => {
-    const project = projects[projectId];
-    if (project) {
-      set({
-        currentProject: project,
-        currentStateIndex: 0,
-        chatHistory: new Map(),
-      });
-    } else {
-      console.error(`Project not found: ${projectId}`);
+// ============================================================================
+// Main Store
+// ============================================================================
+
+export const useProjectStore = create<ProjectStore>()(
+  persist(
+    (set, get) => ({
+      // Initial State
+      currentProject: null,
+      currentStateIndex: 0,
+      isLoading: false,
+      error: null,
+      speed: defaultPreferences.speed,
+      showDiff: defaultPreferences.showDiff,
+      chatHistory: new Map(),
+
+      // ========================================
+      // Project Actions
+      // ========================================
+
+      loadProject: (projectId: string) => {
+        const project = projects[projectId];
+        if (project) {
+          set({
+            currentProject: project,
+            currentStateIndex: 0,
+            chatHistory: new Map(),
+            error: null,
+          });
+        } else {
+          set({ error: `Project not found: ${projectId}` });
+        }
+      },
+
+      setLoading: (loading: boolean) => {
+        set({ isLoading: loading });
+      },
+
+      setError: (error: string | null) => {
+        set({ error });
+      },
+
+      // ========================================
+      // Navigation Actions
+      // ========================================
+
+      nextState: () => {
+        const { currentProject, currentStateIndex } = get();
+        if (currentProject && currentStateIndex < currentProject.states.length - 1) {
+          set({ currentStateIndex: currentStateIndex + 1 });
+        }
+      },
+
+      prevState: () => {
+        const { currentStateIndex } = get();
+        if (currentStateIndex > 0) {
+          set({ currentStateIndex: currentStateIndex - 1 });
+        }
+      },
+
+      jumpToState: (index: number) => {
+        const { currentProject } = get();
+        if (currentProject && index >= 0 && index < currentProject.states.length) {
+          set({ currentStateIndex: index });
+        }
+      },
+
+      // ========================================
+      // User Preference Actions
+      // ========================================
+
+      setSpeed: (speed: Speed) => {
+        set({ speed });
+      },
+
+      setShowDiff: (show: boolean) => {
+        set({ showDiff: show });
+      },
+
+      toggleDiff: () => {
+        const { showDiff } = get();
+        set({ showDiff: !showDiff });
+      },
+
+      // ========================================
+      // Chat Actions
+      // ========================================
+
+      addChatMessage: (stateId: number, message: ChatMessage) => {
+        const { chatHistory } = get();
+        const newHistory = new Map(chatHistory);
+        const stateMessages = newHistory.get(stateId) || [];
+        newHistory.set(stateId, [...stateMessages, message]);
+        set({ chatHistory: newHistory });
+      },
+
+      clearChatHistory: () => {
+        set({ chatHistory: new Map() });
+      },
+
+      // ========================================
+      // Computed Getters
+      // ========================================
+
+      getCurrentState: () => {
+        const { currentProject, currentStateIndex } = get();
+        if (!currentProject) return null;
+        return currentProject.states[currentStateIndex];
+      },
+
+      getExplanation: () => {
+        const { currentProject, currentStateIndex, speed } = get();
+        if (!currentProject) return '';
+        const state = currentProject.states[currentStateIndex];
+        return state?.speedExplanations[speed] || '';
+      },
+
+      getChatMessages: (stateId: number) => {
+        const { chatHistory } = get();
+        return chatHistory.get(stateId) || [];
+      },
+
+      getTotalStates: () => {
+        const { currentProject } = get();
+        return currentProject?.states.length || 0;
+      },
+
+      isFirstState: () => {
+        const { currentStateIndex } = get();
+        return currentStateIndex === 0;
+      },
+
+      isLastState: () => {
+        const { currentProject, currentStateIndex } = get();
+        if (!currentProject) return true;
+        return currentStateIndex === currentProject.states.length - 1;
+      },
+    }),
+    {
+      name: 'slow-llm-coder-settings',
+      storage: createJSONStorage(() => localStorage),
+      // Only persist user preferences (speed and showDiff)
+      partialize: (state) => ({
+        speed: state.speed,
+        showDiff: state.showDiff,
+      }),
     }
-  },
+  )
+);
 
-  // Navigate to next state
-  nextState: () => {
-    const { currentProject, currentStateIndex } = get();
-    if (currentProject && currentStateIndex < currentProject.states.length - 1) {
-      set({ currentStateIndex: currentStateIndex + 1 });
-    }
-  },
+// ============================================================================
+// Selector Hooks (for optimized re-renders)
+// ============================================================================
 
-  // Navigate to previous state
-  prevState: () => {
-    const { currentStateIndex } = get();
-    if (currentStateIndex > 0) {
-      set({ currentStateIndex: currentStateIndex - 1 });
-    }
-  },
-
-  // Jump to specific state
-  jumpToState: (index: number) => {
-    const { currentProject } = get();
-    if (currentProject && index >= 0 && index < currentProject.states.length) {
-      set({ currentStateIndex: index });
-    }
-  },
-
-  // Change speed setting
-  setSpeed: (speed: Speed) => {
-    set({ speed });
-  },
-
-  // Add a chat message to a state's history
-  addChatMessage: (stateId: number, message: ChatMessage) => {
-    const { chatHistory } = get();
-    const newHistory = new Map(chatHistory);
-    const stateMessages = newHistory.get(stateId) || [];
-    newHistory.set(stateId, [...stateMessages, message]);
-    set({ chatHistory: newHistory });
-  },
-
-  // Set loading state
-  setLoading: (loading: boolean) => {
-    set({ isLoading: loading });
-  },
-
-  // Get current code state
-  getCurrentState: () => {
-    const { currentProject, currentStateIndex } = get();
-    if (!currentProject) return null;
-    return currentProject.states[currentStateIndex];
-  },
-
-  // Get explanation based on current speed
-  getExplanation: () => {
-    const { currentProject, currentStateIndex, speed } = get();
-    if (!currentProject) return '';
-    const state = currentProject.states[currentStateIndex];
-    return state.speedExplanations[speed];
-  },
-
-  // Get chat messages for a state
-  getChatMessages: (stateId: number) => {
-    const { chatHistory } = get();
-    return chatHistory.get(stateId) || [];
-  },
-}));
+// Use these selectors for better performance in components
+export const useCurrentProject = () => useProjectStore((state) => state.currentProject);
+export const useCurrentStateIndex = () => useProjectStore((state) => state.currentStateIndex);
+export const useSpeed = () => useProjectStore((state) => state.speed);
+export const useShowDiff = () => useProjectStore((state) => state.showDiff);
+export const useIsLoading = () => useProjectStore((state) => state.isLoading);
+export const useError = () => useProjectStore((state) => state.error);
