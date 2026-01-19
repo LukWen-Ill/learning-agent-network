@@ -8,14 +8,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Target audience**: Students learning programming with AI as a teaching tool
 
+**MVP Courses**: Calculator (Python) + Todo List App (JavaScript)
+
+## SOP Implementation Agent
+
+When implementing features, Claude Code should follow the Standard Operating Procedure:
+
+1. **Load the SOP prompt**: `.claude/prompts/sop-implementation-agent.md`
+2. **Read feature documentation**: `docs/features/feature-{name}.md`
+3. **Follow the SOP guide**: `docs/SOP-CLAUDE-CODE.md`
+4. **Reference implementation guide**: `docs/IMPLEMENTATION-GUIDE.md`
+
+### Quick Start for Feature Implementation
+
+```
+1. Read docs/features/feature-{name}.md
+2. Read docs/DATABASE-SCHEMA.md
+3. Check existing patterns in codebase
+4. Implement backend first (Models -> DTOs -> Endpoints)
+5. Implement frontend (Types -> Store -> Components)
+6. Integration test
+7. Verify all acceptance criteria
+```
+
 ## Tech Stack
 
-- **Frontend**: React 18 + TypeScript + Vite
-- **Editor**: Monaco Editor (@monaco-editor/react)
-- **State Management**: Zustand
-- **Styling**: Tailwind CSS
-- **Data Fetching**: React Query (@tanstack/react-query)
-- **AI**: Anthropic Claude API (Claude Sonnet 4)
+| Layer | Technology |
+|-------|------------|
+| Backend | C# Minimal API (.NET 8) |
+| Frontend | React 18 + TypeScript + Vite |
+| Code Editor | prism-react-renderer (or CodeMirror 6) |
+| State Management | Zustand |
+| Styling | Tailwind CSS |
+| Data Fetching | React Query (@tanstack/react-query) |
+| Database | MySQL (local via MySQL Workbench) |
+| AI | Mistral AI (post-MVP only) |
 
 ## Commands
 
@@ -97,6 +124,68 @@ VITE_CLAUDE_API_KEY=your_api_key_here
 
 ## MVP Scope
 
-Must have: Code editor with split-view, state navigation, one complete hardcoded project, speed control, chatbox per state.
+**Must have (4 Features):**
+1. Code Editor - Syntax-highlighted, read-only code display
+2. State Navigation - Timeline slider and prev/next buttons
+3. Explanation Panel - Three levels (Brief/Normal/Detailed)
+4. Diff Visualization - Highlight added/removed lines
 
-Post-MVP: Multiple languages, temperature modes, dynamic code generation, user accounts, gamification.
+**MVP Content:**
+- 2 pre-written courses (Calculator + Todo List)
+- No AI features in MVP
+
+**Post-MVP:**
+- Multiple languages
+- Temperature modes
+- Dynamic code generation via Mistral AI
+- User accounts
+- Gamification
+
+## Documentation
+
+| Document | Location | Purpose |
+|----------|----------|---------|
+| Database Schema | `docs/DATABASE-SCHEMA.md` | MySQL tables and C#/TS models |
+| Code Editor Feature | `docs/features/feature-code-editor.md` | Editor component specs |
+| State Navigation Feature | `docs/features/feature-state-navigation.md` | Navigation component specs |
+| Explanation Panel Feature | `docs/features/feature-explanation-panel.md` | Explanation component specs |
+| Diff Visualization Feature | `docs/features/feature-diff-visualization.md` | Diff component specs |
+| SOP Guide | `docs/SOP-CLAUDE-CODE.md` | Standard Operating Procedure |
+| Implementation Guide | `docs/IMPLEMENTATION-GUIDE.md` | Step-by-step build instructions |
+| SOP Agent Prompt | `.claude/prompts/sop-implementation-agent.md` | Reusable implementation prompt |
+
+## How to Use Documentation
+
+### Implementing a Feature
+
+1. Load the SOP agent prompt: `.claude/prompts/sop-implementation-agent.md`
+2. Specify the feature name (e.g., "code-editor")
+3. Follow the step-by-step workflow in the prompt
+
+### Understanding a Feature
+
+Read the feature documentation in `docs/features/feature-{name}.md`:
+- User story and acceptance criteria
+- Data models (TypeScript + C#)
+- API endpoints
+- Component structure
+- UI mockups
+
+### Building the Full MVP
+
+Follow `docs/IMPLEMENTATION-GUIDE.md` which provides:
+1. Project setup (Vite + .NET)
+2. Database setup (MySQL schema)
+3. Backend API implementation
+4. Frontend component implementation
+5. Integration steps
+6. Testing checklist
+
+### Understanding the Workflow
+
+Read `docs/SOP-CLAUDE-CODE.md` for:
+- Phase-by-phase implementation process
+- Code style guidelines
+- File naming conventions
+- Commit message format
+- Quality gates checklist
